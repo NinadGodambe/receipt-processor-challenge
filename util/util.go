@@ -5,6 +5,7 @@ import (
 	"math"
 	"strconv"
 	"strings"
+	"unicode"
 	"github.com/google/uuid"
 )
 
@@ -27,7 +28,13 @@ func CalculatePoints(receipt *model.Receipt) int {
 // CalculatePointsRetailerName calculates points based on Rule 1.
 // Rule 1: One point for every alphanumeric character in the retailer name.
 func CalculatePointsRetailerName(retailer string) int {
-	return len(strings.ReplaceAll(retailer, " ", ""))
+	points := 0
+	for _, char := range retailer {
+		if unicode.IsLetter(char) || unicode.IsNumber(char) {
+			points++
+		}
+	}
+	return points
 }
 
 // CalculatePointsTotalRoundDollar calculates points based on Rule 2.
